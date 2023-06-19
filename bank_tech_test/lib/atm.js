@@ -1,7 +1,11 @@
+const { statement } = require("@babel/template");
+
 class ATM {
     constructor() {
         this.balance = 0;
         this.transactions = [];
+        this.tRow = [];
+        this.statement = null;
     }
 
     deposit (amount, date) {
@@ -28,16 +32,35 @@ class ATM {
         return this.balance;
     }
 
-    checkTransactions() {
+    rawTransactionData() {
         return (this.transactions);
     }
 
     printStatement () {
-        return this.transactions.forEach(this.formatStatement())
+        return `date || credit || debit || balance\n${this.statement[0]}\n${this.statement[1]}\n${this.statement[2]}`
+        // refactor with forEach somehow
     }
 
     formatStatement () {
-        return `${this.transactions[0].DOT} || ${this.transactions[0].credit} || ${this.transactions[0].debit} || ${this.transactions[0].balance}`
+        for (let i = 0; i < this.transactions.length; i++) {
+            const credit = [];
+            const debit = [];
+            if (isNaN(this.transactions[i].credit)) {
+                credit[i] = "";
+            } else {
+                credit[i] = this.transactions[i].credit.toFixed(2) + " ";
+            }
+            if (isNaN(this.transactions[i].debit)) {
+                debit[i] = "";
+            } else {
+                debit[i] = this.transactions[i].debit.toFixed(2) + " ";
+            }
+            this.tRow.push(`${this.transactions[i].DOT} || ${credit[i]}|| ${debit[i]}|| ${this.transactions[i].balance.toFixed(2)}`);
+          }
+
+        const statement = this.tRow.reverse();
+        this.statement = statement;
+        return this.statement;
     }
     
 }

@@ -40,7 +40,7 @@ describe('ATM interactions', () => {
             const amy = new ATM;
             amy.deposit(1000, "10/01/2023");
 
-            expect(amy.checkTransactions()).toEqual([{ DOT : "10/01/2023", balance : 1000, credit : 1000 }])
+            expect(amy.rawTransactionData()).toEqual([{ DOT : "10/01/2023", balance : 1000, credit : 1000 }])
         })
 
         it('prints statement after several transactions', () => {
@@ -49,7 +49,7 @@ describe('ATM interactions', () => {
             amy.deposit(2000, "13/01/2023");
             amy.withdraw(500, "14/01/2023");
 
-            expect(amy.checkTransactions()).toEqual([{ DOT : "10/01/2023", balance : 1000, credit : 1000 }, { DOT : "13/01/2023", balance : 3000, credit : 2000 }, { DOT : "14/01/2023", balance : 2500, debit : 500}])
+            expect(amy.rawTransactionData()).toEqual([{ DOT : "10/01/2023", balance : 1000, credit : 1000 }, { DOT : "13/01/2023", balance : 3000, credit : 2000 }, { DOT : "14/01/2023", balance : 2500, debit : 500}])
         })
 
         it('prints statement after several transactions', () => {
@@ -58,9 +58,19 @@ describe('ATM interactions', () => {
             amy.deposit(2000, "13/01/2023");
             amy.withdraw(500, "14/01/2023");
 
-            expect(amy.formatStatement()).toEqual('')
+
+            expect(amy.formatStatement()).toEqual(["14/01/2023 || || 500.00 || 2500.00", "13/01/2023 || 2000.00 || || 3000.00", "10/01/2023 || 1000.00 || || 1000.00"])
         })
 
+        it('prints statement after several transactions', () => {
+            const amy = new ATM;
+            amy.deposit(1000, "10/01/2023");
+            amy.deposit(2000, "13/01/2023");
+            amy.withdraw(500, "14/01/2023");
+            amy.formatStatement();
+
+            expect(amy.printStatement()).toEqual('date || credit || debit || balance\n14/01/2023 || || 500.00 || 2500.00\n13/01/2023 || 2000.00 || || 3000.00\n10/01/2023 || 1000.00 || || 1000.00')
+        })
 })
 
 /*
