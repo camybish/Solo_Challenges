@@ -19,15 +19,13 @@ describe('ATM interactions', () => {
 
             expect(jenny.deposit('lol')).toEqual("Please enter a valid amount to deposit");
         })
-  
-
+        
         it('withdraws £500', () => {
             const harry = new ATM;
             harry.deposit(1000);
-
+            
             expect(harry.withdraw(500)).toEqual("Successfully withdrawn £500");
         })
-
 
         it('checks balance after a deposit and withdrawal', () => {
             const paul = new ATM; 
@@ -70,6 +68,15 @@ describe('ATM interactions', () => {
             amy.formatStatement();
 
             expect(amy.printStatement()).toEqual('date || credit || debit || balance\n14/01/2023 || || 500.00 || 2500.00\n13/01/2023 || 2000.00 || || 3000.00\n10/01/2023 || 1000.00 || || 1000.00')
+        })
+
+        it('prints statement after two transactions', () => {
+            const abdul = new ATM;
+            abdul.deposit(1000, "10/01/2023");
+            abdul.withdraw(500, "14/01/2023");
+            abdul.formatStatement();
+
+            expect(abdul.printStatement()).toEqual('date || credit || debit || balance\n14/01/2023 || || 500.00 || 500.00\n10/01/2023 || 1000.00 || || 1000.00')
         })
 })
 

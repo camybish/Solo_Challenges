@@ -19,7 +19,7 @@ class ATM {
         }
     }
     withdraw (amount, date) {
-        if (amount >= 0 && typeof !isNaN(amount) ) {
+        if (amount >= 0 && typeof !isNaN(amount)) {
             this.balance -= amount;
             this.transactions.push({ DOT : date, debit : amount, balance : this.balance })
             return `Successfully withdrawn £${amount}`;
@@ -37,7 +37,7 @@ class ATM {
     }
 
     printStatement () {
-        return `date || credit || debit || balance\n${this.statement[0]}\n${this.statement[1]}\n${this.statement[2]}`
+        return `date || credit || debit || balance\n` + this.statement.join("\n")
         // refactor with forEach somehow
     }
 
