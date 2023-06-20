@@ -5,23 +5,27 @@ class ATM {
         this.balance = 0;
         this.transactions = [];
         this.tRow = [];
-        this.statement = null;
     }
 
-    deposit (amount, date) {
-        if (amount >= 0 && typeof !isNaN(amount) ) {
+    deposit (amount, year, month, day) {
+        if (amount >= 0 && typeof !isNaN(amount)) {
             this.balance += amount;
-            this.transactions.push({ DOT: date, credit : amount, balance : this.balance })
-
+            var fullDay = new Date(year, month-1, day);
+            var today = fullDay.toLocaleDateString("en-GB");
+            
+            this.transactions.push({ DOT: today, credit : amount, balance : this.balance })
             return `Successfully deposited £${amount}`
         } else {
             return `Please enter a valid amount to deposit`;
         }
     }
-    withdraw (amount, date) {
+    withdraw (amount, year, month, day) {
         if (amount >= 0 && typeof !isNaN(amount)) {
             this.balance -= amount;
-            this.transactions.push({ DOT : date, debit : amount, balance : this.balance })
+            var fullDay = new Date(year, month-1, day);
+            var today = fullDay.toLocaleDateString("en-GB");
+
+            this.transactions.push({ DOT : today, debit : amount, balance : this.balance })
             return `Successfully withdrawn £${amount}`;
         } else {
             return `Please enter a valid amount to withdraw`
@@ -29,7 +33,7 @@ class ATM {
     }
 
     checkBalance () {
-        return this.balance;
+        return `You have £${this.balance} in this account`;
     }
 
     rawTransactionData() {
@@ -37,19 +41,11 @@ class ATM {
     }
 
     printStatement () {
-        return `date || credit || debit || balance\n` + this.statement.join("\n")
-        // refactor with forEach somehow
-    }
-
-    formatStatement () {
         for (let i = 0; i < this.transactions.length; i++) {
             const credit = [];
             const debit = [];
-            if (isNaN(this.transactions[i].credit)) {
-                credit[i] = "";
-            } else {
-                credit[i] = this.transactions[i].credit.toFixed(2) + " ";
-            }
+            (isNaN(this.transactions[i].credit) ? credit[i] = "" : credit[i] = this.transactions[i].credit.toFixed(2) + " ")
+        
             if (isNaN(this.transactions[i].debit)) {
                 debit[i] = "";
             } else {
@@ -59,8 +55,7 @@ class ATM {
           }
 
         const statement = this.tRow.reverse();
-        this.statement = statement;
-        return this.statement;
+        return `date || credit || debit || balance\n` + statement.join("\n");
     }
     
 }
