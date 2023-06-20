@@ -9,24 +9,14 @@ class ATM {
 
     deposit (amount, year, month, day) {
         if (amount >= 0 && typeof !isNaN(amount)) {
-            this.balance += amount;
-            var fullDay = new Date(year, month-1, day);
-            var today = fullDay.toLocaleDateString("en-GB");
-            
-            this.transactions.push({ DOT: today, credit : amount, balance : this.balance })
-            return `Successfully deposited £${amount}`
+            return this.saveDepost(amount, year, month, day);
         } else {
             return `Please enter a valid amount to deposit`;
         }
     }
     withdraw (amount, year, month, day) {
         if (amount >= 0 && typeof !isNaN(amount)) {
-            this.balance -= amount;
-            var fullDay = new Date(year, month-1, day);
-            var today = fullDay.toLocaleDateString("en-GB");
-
-            this.transactions.push({ DOT : today, debit : amount, balance : this.balance })
-            return `Successfully withdrawn £${amount}`;
+            return this.saveWithdrawal(amount, year, month, day);
         } else {
             return `Please enter a valid amount to withdraw`
         }
@@ -45,19 +35,33 @@ class ATM {
             const credit = [];
             const debit = [];
             (isNaN(this.transactions[i].credit) ? credit[i] = "" : credit[i] = this.transactions[i].credit.toFixed(2) + " ")
-        
-            if (isNaN(this.transactions[i].debit)) {
-                debit[i] = "";
-            } else {
-                debit[i] = this.transactions[i].debit.toFixed(2) + " ";
-            }
+            if (isNaN(this.transactions[i].debit)) 
+            { debit[i] = ""; } 
+            else { debit[i] = this.transactions[i].debit.toFixed(2) + " "; }
             this.tRow.push(`${this.transactions[i].DOT} || ${credit[i]}|| ${debit[i]}|| ${this.transactions[i].balance.toFixed(2)}`);
           }
 
-        const statement = this.tRow.reverse();
-        return `date || credit || debit || balance\n` + statement.join("\n");
+        return `date || credit || debit || balance\n` + this.tRow.reverse().join("\n");
     }
-    
+    private 
+
+    saveDepost(amount, year, month, day) {
+        this.balance += amount;
+        var fullDay = new Date(year, month-1, day);
+        var day = fullDay.toLocaleDateString("en-GB");
+        
+        this.transactions.push({ DOT: day, credit : amount, balance : this.balance })
+        return `Successfully deposited £${amount}`
+    }
+
+    saveWithdrawal(amount, year, month, day) {
+        this.balance -= amount;
+        var fullDay = new Date(year, month-1, day);
+        var day = fullDay.toLocaleDateString("en-GB");
+
+        this.transactions.push({ DOT : day, debit : amount, balance : this.balance })
+        return `Successfully withdrawn £${amount}`;
+    }
 }
 
 module.exports = ATM;
