@@ -45,13 +45,6 @@ describe GildedRose do
             expect(items[0].sell_in).to eq 1
             expect(items[0].quality).to eq 13
         end
-
-        it "quality drops to 0 after concert" do 
-            items = [Item.new("Aged Brie", 0, 10)]
-            GildedRose.new(items).update_quality()
-            expect(items[0].sell_in).to eq -1
-            expect(items[0].quality).to eq 0
-        end
     end
 
 

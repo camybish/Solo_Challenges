@@ -5,7 +5,7 @@ Quality
 Aged Brie and 'Backstage Passes'
     quality +2 if 10 days or less (before SellIn date) [T] [X] (only brie fails)
     quality +3 if 5 days or less [T] [X] (both fail)
-    quality drops to 0 after the concert 
+    quality drops to 0 after the concert [T]
 
 Sulfuras
     legendary

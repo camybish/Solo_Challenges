@@ -4,7 +4,7 @@ class GildedRose
     @items = items
   end
 
-  def update_quality()
+  def update_quality() # a day passes
     @items.each do |item|
       if item.name != "Aged Brie" and item.name != "Backstage passes to a TAFKAL80ETC concert"
         if item.quality > 0
@@ -19,19 +19,19 @@ class GildedRose
           if item.name == "Backstage passes to a TAFKAL80ETC concert"
             if item.sell_in < 11
               if item.quality < 50
-                item.quality = item.quality + 1
+                item.quality = item.quality + 1 # janky way of adding quality+2 to bsp 
               end
             end
             if item.sell_in < 6
               if item.quality < 50
-                item.quality = item.quality + 1
+                item.quality = item.quality + 1 # more jank
               end
             end
           end
         end
       end
       if item.name != "Sulfuras, Hand of Ragnaros"
-        item.sell_in = item.sell_in - 1
+        item.sell_in = item.sell_in - 1 # to make sure sulfuras never has to be sold
       end
       if item.sell_in < 0
         if item.name != "Aged Brie"
