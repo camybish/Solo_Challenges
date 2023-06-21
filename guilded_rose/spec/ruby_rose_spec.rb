@@ -9,6 +9,18 @@ describe GildedRose do
       expect(items[0].name).to eq "foo"
     end
 
+    it "ensures quality doesn't get negative" do
+        items = [Item.new("foo", 0, 0)]
+        GildedRose.new(items).update_quality()
+        expect(items[0].name).to eq "foo"
+    end
+
+    it "checks to see if quality degrades twice as fast if sell_in is negative" do 
+        items = [Item.new("foo", -1, 10)]
+        GildedRose.new(items).update_quality()
+        expect(items[0].quality).to eq 8
+    end
+
 
     context "Aged Brie" do #brie dont work
         it "Aged Brie quality +1 --> sell_in > 10" do
@@ -18,32 +30,10 @@ describe GildedRose do
             expect(items[0].quality).to eq 11
         end
 
-        it "quality +2 --> sell_in = 10 days" do
-            items = [Item.new("Aged Brie", 10, 10)]
+        it "makes sure value (quality) does not exceed 50" do 
+            items = [Item.new("Aged Brie", 15, 50)]
             GildedRose.new(items).update_quality()
-            expect(items[0].sell_in).to eq 9
-            expect(items[0].quality).to eq 12
-        end
-
-        it "quality +2 --> sell_in = 6 days" do
-            items = [Item.new("Aged Brie", 6, 10)]
-            GildedRose.new(items).update_quality()
-            expect(items[0].sell_in).to eq 5
-            expect(items[0].quality).to eq 12
-        end
-
-        it "quality +3 --> sell_in = 5 days" do
-            items = [Item.new("Aged Brie", 5, 10)]
-            GildedRose.new(items).update_quality()
-            expect(items[0].sell_in).to eq 4
-            expect(items[0].quality).to eq 13
-        end
-
-        it "quality +3 --> sell_in = 2 days" do
-            items = [Item.new("Aged Brie", 2, 10)]
-            GildedRose.new(items).update_quality()
-            expect(items[0].sell_in).to eq 1
-            expect(items[0].quality).to eq 13
+            expect(items[0].quality).to eq 50
         end
     end
 
@@ -89,6 +79,12 @@ describe GildedRose do
             GildedRose.new(items).update_quality()
             expect(items[0].sell_in).to eq -1
             expect(items[0].quality).to eq 0
+        end
+
+        it "makes sure value (quality) does not exceed 50" do 
+            items = [Item.new("Backstage passes to a TAFKAL80ETC concert", 6, 50)]
+            GildedRose.new(items).update_quality()
+            expect(items[0].quality).to eq 50
         end
     end
 

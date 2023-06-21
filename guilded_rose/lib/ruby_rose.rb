@@ -42,11 +42,11 @@ class GildedRose
               end
             end
           else
-            item.quality = item.quality - item.quality
+            item.quality = item.quality - item.quality # quality dropping to 0 after concert
           end
         else
           if item.quality < 50
-            item.quality = item.quality + 1
+            item.quality = item.quality + 1 # brie going up in value
           end
         end
       end

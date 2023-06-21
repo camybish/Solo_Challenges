@@ -1,11 +1,15 @@
 Quality
-    never negative
-    50 max
+    never negative [T]
+    50 max [T]
+    decreases x2 fast if sell_in is negative
 
-Aged Brie and 'Backstage Passes'
-    quality +2 if 10 days or less (before SellIn date) [T] [X] (only brie fails)
-    quality +3 if 5 days or less [T] [X] (both fail)
+'Backstage Passes'
+    quality +2 if 10 days or less (before SellIn date) [T] [X] -- (only brie fails)
+    quality +3 if 5 days or less [T] [X] -- (both fail)
     quality drops to 0 after the concert [T]
+
+Aged Brie
+    quality +1 instead of -1
 
 Sulfuras
     legendary
