@@ -6,49 +6,39 @@ class GildedRose
 
   def update_quality() # a day passes
     @items.each do |item|
-      if item.name != "Aged Brie" and item.name != "Backstage passes to a TAFKAL80ETC concert"
-        if item.quality > 0
-          if item.name != "Sulfuras, Hand of Ragnaros" 
-            item.quality = item.quality - 1
-            # -1 quality if name is not brie, backstage passes or sulfuras
-          end
-        end # nested conditionals for items with multiple names?
-      else
+      case item.name
+      when "Aged Brie"
         if item.quality < 50
-          item.quality = item.quality + 1 # brie or backstage passes
-          if item.name == "Backstage passes to a TAFKAL80ETC concert"
-            if item.sell_in < 11
-              if item.quality < 50
-                item.quality = item.quality + 1 # janky way of adding quality+2 to bsp 
-              end
-            end
-            if item.sell_in < 6
-              if item.quality < 50
-                item.quality = item.quality + 1 # more jank
-              end
-            end
-          end
+          item.quality += 1 
         end
-      end
-      if item.name != "Sulfuras, Hand of Ragnaros"
-        item.sell_in = item.sell_in - 1 # to make sure sulfuras never has to be sold
-      end
-      if item.sell_in < 0
-        if item.name != "Aged Brie"
-          if item.name != "Backstage passes to a TAFKAL80ETC concert"
-            if item.quality > 0
-              if item.name != "Sulfuras, Hand of Ragnaros"
-                item.quality = item.quality - 1
-              end
-            end
-          else
-            item.quality = item.quality - item.quality # quality dropping to 0 after concert
-          end
-        else
-          if item.quality < 50
-            item.quality = item.quality + 1 # brie going up in value
-          end
+        item.sell_in -= 1
+      when "Backstage passes to a TAFKAL80ETC concert" # find a way to globally keep the quality below 50
+        case item.sell_in
+        when -1..-Float::INFINITY 
+          item.quality -= 2
+        when 0
+          item.quality = 0
+        when 1..5
+          item.quality += 3
+        when 6..10
+          item.quality += 2
+        else  
+          item.quality += 1
         end
+        item.sell_in -= 1
+        if item.quality > 50
+          item.quality = 50
+        end
+      when "Sulfuras, Hand of Ragnaros"
+        
+      else
+        if item.sell_in < 0
+          item.quality -= 1
+        end
+        unless item.quality == 0
+          item.quality -= 1
+        end
+        item.sell_in -= 1
       end
     end
   end

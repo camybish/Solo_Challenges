@@ -12,7 +12,7 @@ describe GildedRose do
     it "ensures quality doesn't get negative" do
         items = [Item.new("foo", 0, 0)]
         GildedRose.new(items).update_quality()
-        expect(items[0].name).to eq "foo"
+        expect(items[0].quality).to eq 0
     end
 
     it "checks to see if quality degrades twice as fast if sell_in is negative" do 
@@ -22,8 +22,8 @@ describe GildedRose do
     end
 
 
-    context "Aged Brie" do #brie dont work
-        it "Aged Brie quality +1 --> sell_in > 10" do
+    context "Aged Brie" do
+        it "Aged Brie quality +1" do
             items = [Item.new("Aged Brie", 15, 10)]
             GildedRose.new(items).update_quality()
             expect(items[0].sell_in).to eq 14
@@ -101,6 +101,5 @@ describe GildedRose do
       expect(items[0].quality).to eq 45
       # program doesn't accept that Sulfuras has no sell_in value
     end
-
   end
 end
