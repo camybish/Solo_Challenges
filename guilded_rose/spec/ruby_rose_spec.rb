@@ -100,6 +100,15 @@ describe GildedRose do
       GildedRose.new(items).update_quality()
       expect(items[0].quality).to eq 45
       # program doesn't accept that Sulfuras has no sell_in value
-    end
+    end   
+    
+    it "tests Sulfuras never drops in quality" do
+        items = [Item.new("Sulfuras, Hand of Ragnaros", nil, 45)]
+        GildedRose.new(items).update_quality()
+        expect(items[0].sell_in).to eq nil
+        expect(items[0].quality).to eq 45
+
+        # program doesn't accept that Sulfuras has no sell_in value
+      end   
   end
 end
