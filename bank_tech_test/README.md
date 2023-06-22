@@ -5,7 +5,7 @@ In case you want to interact with the ATM directly here are the setup instructio
 ## Process
 
 Raw Transactions
-{ DOT: date, credit : amount, balance : this.balance }
+{ DOT: date, moneyDiff : amount, balance : this.balance }
 
 Formatted Transactions
 { DOT: newDate, credit : amount, debit : amount, balance : this.balance }
