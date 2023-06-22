@@ -7,16 +7,18 @@ class ATM {
         this.tRow = [];
     }
 
-    deposit (amount, year, month, day) {
+    deposit (amount, yearOrNow, month = null, day = null) {
+        let date = this.dateFormatter(yearOrNow, month, day);
         if (amount >= 0 && typeof !isNaN(amount)) {
-            return this.saveDepost(amount, year, month, day);
+            return this.saveDeposit(amount, date);
         } else {
             return `Please enter a valid amount to deposit`;
         }
     }
-    withdraw (amount, year, month, day) {
+    withdraw (amount, yearOrNow, month = null, day = null) {
+        let date = this.dateFormatter(yearOrNow, month, day);
         if (amount >= 0 && typeof !isNaN(amount)) {
-            return this.saveWithdrawal(amount, year, month, day);
+            return this.saveWithdrawal(amount, date);
         } else {
             return `Please enter a valid amount to withdraw`
         }
@@ -45,21 +47,27 @@ class ATM {
     }
     private 
 
-    saveDepost(amount, year, month, day) {
+    dateFormatter (yearOrNow, month, day) {
+        if (month != null) {
+        var fullDay = new Date(yearOrNow, month-1, day);
+        return day = fullDay.toLocaleDateString("en-GB");
+        } else {
+            let today = new Date()
+            return today.toLocaleDateString("en-GB");
+        }
+    }
+
+    saveDeposit(amount, date) {
         this.balance += amount;
-        var fullDay = new Date(year, month-1, day);
-        var day = fullDay.toLocaleDateString("en-GB");
-        
-        this.transactions.push({ DOT: day, credit : amount, balance : this.balance })
+      
+        this.transactions.push({ DOT: date, credit : amount, balance : this.balance })
         return `Successfully deposited £${amount}`
     }
 
-    saveWithdrawal(amount, year, month, day) {
+    saveWithdrawal(amount, date) {
         this.balance -= amount;
-        var fullDay = new Date(year, month-1, day);
-        var day = fullDay.toLocaleDateString("en-GB");
 
-        this.transactions.push({ DOT : day, debit : amount, balance : this.balance })
+        this.transactions.push({ DOT : date, debit : amount, balance : this.balance })
         return `Successfully withdrawn £${amount}`;
     }
 }

@@ -52,4 +52,4 @@ Classes:
 
 - Bank
     add account
-    
+    printStatement
