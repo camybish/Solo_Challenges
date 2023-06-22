@@ -1,5 +1,3 @@
-const { statement } = require("@babel/template");
-
 class ATM {
     constructor() {
         this.balance = 0;
@@ -45,6 +43,7 @@ class ATM {
 
         return `date || credit || debit || balance\n` + this.tRow.reverse().join("\n");
     }
+    
     private 
 
     dateFormatter (yearOrNow, month, day) {

@@ -1,7 +1,10 @@
 const ATM = require('../lib/atm');
 
 describe('ATM interactions', () => {
-    
+    afterAll(() => {
+        jest.useRealTimers()
+      })
+
     it('deposits money: £1000', () => {
         const jenny = new ATM;
 
@@ -69,13 +72,17 @@ describe('ATM interactions', () => {
 
     it('prints statement after two transactions - date is taken from the machine', () => {
         const abdul = new ATM;
-        const dateNowSpy = jest.spyOn(Date, 'now').mockImplementation(() => new Date('2023/01/14'));
-        console.log(dateNowSpy())
+
+        jest.useFakeTimers("modern")
+        jest.setSystemTime(new Date("2023-01-14"))
+        // jest.useRealTimers()
+        const today = new Date();
+        const dateString = today.toLocaleDateString("en-GB");
         abdul.deposit(1000, 2023, 1, 10);
-        abdul.withdraw(500, dateNowSpy);
+        abdul.withdraw(500, dateString);
 
 
-        expect(abdul.printStatement()).toEqual('date || credit || debit || balance\n14/01/2023 || || 500.00 || 500.00\n10/01/2023 || 1000.00 || || 1000.00')
+        expect(abdul.printStatement()).toEqual('date || credit || debit || balance\n' + dateString + ' || || 500.00 || 500.00\n10/01/2023 || 1000.00 || || 1000.00')
     });
 })
 

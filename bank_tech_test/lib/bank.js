@@ -1,21 +1,25 @@
 class Bank {
     constructor () {
-        this.bankAccount = null;
-        this.tRow = [];
+        this.balance = 0;
+        this.transactions = [];
     }
 
-    printStatement () {
-        for (let i = 0; i < this.transactions.length; i++) {
-            const credit = [];
-            const debit = [];
-            (isNaN(this.transactions[i].credit) ? credit[i] = "" : credit[i] = this.transactions[i].credit.toFixed(2) + " ")
-            if (isNaN(this.transactions[i].debit)) 
-            { debit[i] = ""; } 
-            else { debit[i] = this.transactions[i].debit.toFixed(2) + " "; }
-            this.tRow.push(`${this.transactions[i].DOT} || ${credit[i]}|| ${debit[i]}|| ${this.transactions[i].balance.toFixed(2)}`);
-          }
+    transaction(amount, yearOrNow, month = null, day = null) {
+        if (amount != 0 && typeof !isNaN(amount)) {
+            return this.saveTransaction(amount, yearOrNow, month = null, day = null);
+        } else {
+            return `Please enter a valid amount to deposit`;
+        }
+    }
 
-        return `date || credit || debit || balance\n` + this.tRow.reverse().join("\n");
+    saveTransaction(amount, yearOrNow, month = null, day = null) {
+        (amount > 0 ? this.balance += amount : this.balance -= amount);
+        if(Number.isInteger(yearOrNow)) {
+            this.transactions.push({ DOT: [yearOrNow, month, day], moneyDiff : amount, balance : this.balance })
+        } else {
+            this.transactions.push({ DOT: "today", moneyDiff : amount, balance : this.balance })
+        }
+        return `Successfully deposited £${amount}`
     }
 
 }
