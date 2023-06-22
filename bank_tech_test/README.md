@@ -4,7 +4,11 @@ In case you want to interact with the ATM directly here are the setup instructio
 
 ## Process
 
+Raw Transactions
+{ DOT: date, credit : amount, balance : this.balance }
 
+Formatted Transactions
+{ DOT: newDate, credit : amount, debit : amount, balance : this.balance }
 
 ### When interacting with the ATM class
 - Open a new terminal and navigate to the folder bank_tech_test

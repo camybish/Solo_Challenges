@@ -1,5 +1,5 @@
 class ATM {
-    constructor() {
+    constructor(transactions) {
         this.balance = 0;
         this.transactions = [];
         this.tRow = [];
@@ -43,7 +43,7 @@ class ATM {
 
         return `date || credit || debit || balance\n` + this.tRow.reverse().join("\n");
     }
-    
+
     private 
 
     dateFormatter (yearOrNow, month, day) {
