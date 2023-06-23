@@ -1,4 +1,4 @@
-const Account = require('../lib/account');
+const Statement = require('../lib/statement');
 const Bank = require('../lib/bank')
 
 describe('ATM interactions', () => {
@@ -6,40 +6,40 @@ describe('ATM interactions', () => {
     //     jest.useRealTimers()
     //   })
 
-    it('checks single transaction - Bank --> Account', () => {
+    it('checks single transaction - Bank --> Statement', () => {
         const jenny = new Bank();
         jenny.transaction(500, 2020, 12, 25)
-        jennyAccount = new Account(jenny);
+        jennyStatement = new Statement(jenny);
 
-        expect(jennyAccount.currentBalance()).toEqual(500);
+        expect(jennyStatement.currentBalance()).toEqual(500);
     });
 
-    it('checks multiple transactions - Bank --> Account', () => {
+    it('checks multiple transactions - Bank --> Statement', () => {
         const jenny = new Bank();
         jenny.transaction(500, 2020, 12, 25)
         jenny.transaction(250, "now")
-        jennyAccount = new Account(jenny);
+        jennyStatement = new Statement(jenny);
 
-        expect(jennyAccount.currentBalance()).toEqual(750);
+        expect(jennyStatement.currentBalance()).toEqual(750);
     });
 
     it('checks raw Transactions - before formatting', () => {
         const jenny = new Bank();
         jenny.transaction(500, 2020, 12, 25)
         jenny.transaction(250, "now")
-        jennyAccount = new Account(jenny);
+        jennyStatement = new Statement(jenny);
 
-        expect(jennyAccount.showRawTransactions()).toEqual({"balance": 750, "transactions": [{"DOT": [2020, 12, 25], "balance": 500, "moneyDiff": 500}, {"DOT": "today", "balance": 750, "moneyDiff": 250}]});
+        expect(jennyStatement.showRawTransactions()).toEqual({"balance": 750, "transactions": [{"DOT": [2020, 12, 25], "balance": 500, "moneyDiff": 500}, {"DOT": "today", "balance": 750, "moneyDiff": 250}]});
     });
 
-    xit('checks newTransactions after adding to account', () => {
+    it('checks newTransactions after adding to Statement', () => {
         const jenny = new Bank();
         jenny.transaction(500, 2020, 12, 25)
         jenny.transaction(250, "now")
-        jennyAccount = new Account(jenny);
-        jennyAccount.formatTransactions();
+        jennyStatement = new Statement(jenny);
+        jennyStatement.print();
 
-        expect(jennyAccount.showNewTransactions()).toEqual(750);
+        expect(jennyStatement.newTransactions[1].balance).toEqual(750);
     });
 
     xit('deposits a non number', () => {

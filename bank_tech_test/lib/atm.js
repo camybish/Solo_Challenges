@@ -1,5 +1,5 @@
 class ATM {
-    constructor(transactions) {
+    constructor() {
         this.balance = 0;
         this.transactions = [];
         this.tRow = [];
