@@ -1,4 +1,4 @@
-const ATM = require('../lib/atm');
+const ATM = require('./atm');
 
 describe('ATM interactions', () => {
     afterAll(() => {

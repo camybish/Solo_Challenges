@@ -10,6 +10,13 @@ describe('Bank', () => {
         expect(david.transactions[0].DOT).toEqual([2000,1,1])
     })
 
+    it('tests message for withdrawal', () => {
+        const david = new Bank()
+        david.transaction(500, 2000, 1, 1)
+
+        expect(david.transaction(-50, 2000, 1, 1)).toBe('Successfully withdrew £50')
+    })
+
     it('tests if multiple transactions are saved', () => {
         const david = new Bank()
         david.transaction(500, 2000, 1, 1)

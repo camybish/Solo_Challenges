@@ -1,10 +1,12 @@
 const Statement = require('../lib/statement');
 const Bank = require('../lib/bank')
 
+//integration test
+
 describe('ATM interactions', () => {
-    // afterAll(() => {
-    //     jest.useRealTimers()
-    //   })
+    afterAll(() => {
+        jest.useRealTimers()
+      })
 
     it('checks single transaction - Bank --> Statement', () => {
         const jenny = new Bank();
@@ -32,33 +34,46 @@ describe('ATM interactions', () => {
         expect(jennyStatement.showRawTransactions()).toEqual({"balance": 750, "transactions": [{"DOT": [2020, 12, 25], "balance": 500, "moneyDiff": 500}, {"DOT": "today", "balance": 750, "moneyDiff": 250}]});
     });
 
-    it('checks newTransactions after adding to Statement', () => {
+    it('checks newTransactions object after adding to Statement', () => {
+        const jenny = new Bank();
+        jenny.transaction(500, 2020, 12, 25)
+        jenny.transaction(250, 2023, 6, 23)
+        jennyStatement = new Statement(jenny);
+        jennyStatement.print();
+
+        expect(jennyStatement.newTransactions[1].balance).toEqual("750.00");
+    });
+
+    it('checks formatting of new transactions', () => {
         const jenny = new Bank();
         jenny.transaction(500, 2020, 12, 25)
         jenny.transaction(250, "now")
         jennyStatement = new Statement(jenny);
-        jennyStatement.print();
 
-        expect(jennyStatement.newTransactions[1].balance).toEqual(750);
+        expect(jennyStatement.print()).toEqual('date || credit || debit || balance\n23/06/2023 || 250.00 ||  || 750.00\n25/12/2020 || 500.00 ||  || 500.00');
     });
 
-    xit('deposits a non number', () => {
-        const jenny = new ATM; 
+    it('checks formatting for the specific criteria', () => {
+        const jenny = new Bank();
+        jenny.transaction(1000, 2023, 1, 10)
+        jenny.transaction(2000, 2023, 1, 13)
+        jenny.transaction(-500, 2023, 1, 14)
+        jennyStatement = new Statement(jenny);
 
-        expect(jenny.deposit('lol')).toEqual("Please enter a valid amount to deposit");
+        expect(jennyStatement.print()).toEqual('date || credit || debit || balance\n14/01/2023 ||  || 500.00 || 2500.00\n13/01/2023 || 2000.00 ||  || 3000.00\n10/01/2023 || 1000.00 ||  || 1000.00');
     });
     
-    xit('withdraws £500', () => {
-        const harry = new ATM;
-        harry.deposit(1000);
-        
-        expect(harry.withdraw(500)).toEqual("Successfully withdrawn £500");
-    });
+    it('ensures the current time input works for transactions', () => {
+        const jenny = new Bank();
 
-    xit('checks balance after a deposit and withdrawal - includes date', () => {
-        const paul = new ATM; 
-        paul.deposit(1000, 2023, 1, 10);
-        paul.withdraw(500);
-        expect(paul.checkBalance()).toEqual("You have £500 in this account");
+        jest.useFakeTimers("modern")
+        jest.setSystemTime(new Date("2023-01-14"))
+
+        jenny.transaction(1000, 2023, 1, 10)
+        jenny.transaction(2000, "this day")
+        jenny.transaction(-500, true)
+        jennyStatement = new Statement(jenny);
+
+        expect(jennyStatement.print()).toEqual('date || credit || debit || balance\n14/01/2023 ||  || 500.00 || 2500.00\n14/01/2023 || 2000.00 ||  || 3000.00\n10/01/2023 || 1000.00 ||  || 1000.00');
     });
 })

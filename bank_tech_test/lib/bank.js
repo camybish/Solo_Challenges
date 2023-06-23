@@ -8,7 +8,7 @@ class Bank {
         if (amount != 0 && typeof !isNaN(amount)) {
             return this.saveTransaction(amount, yearOrNow, month, day);
         } else {
-            return `Please enter a valid amount to deposit`;
+            return `Please enter a valid amount to deposit or withdraw`;
         }
     }
 
@@ -19,7 +19,7 @@ class Bank {
         } else {
             this.transactions.push({ DOT: "today", moneyDiff : amount, balance : this.balance })
         }
-        return `Successfully deposited £${amount}`
+        return `Successfully ${(amount > 0 ? "deposited" : "withdrew")} £${Math.abs(amount)}`
     }
 
 }

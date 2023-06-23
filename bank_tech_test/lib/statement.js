@@ -2,7 +2,7 @@ class Statement {
     constructor(transactions) {
         this.rawTransactions = transactions;
         this.newTransactions = [];
-    } // new transactions may needed to be converted to an array of objects for formatting purposes
+    }
     
     currentBalance () { // debug
         return this.rawTransactions.balance;
@@ -13,25 +13,25 @@ class Statement {
     }
 
     print () {
-        // value.moneyDiff > 0 ? credit.push(value.moneyDiff) : debit.push(value.moneyDiff);
-
         this.rawTransactions.transactions.forEach(value => {
-            let debit = null;
-            let credit = null;
-            value.moneyDiff > 0 ? credit = value.moneyDiff : debit = value.moneyDiff;
-            let date = (this.formatDate(value.DOT)); // push into the new object instead
-            this.newTransactions.push({DOT: date, credit : credit, debit : debit, balance: value.balance})
+            let debit = '';
+            let credit = '';
+            value.moneyDiff > 0 ? credit = value.moneyDiff.toFixed(2) : debit = Math.abs(value.moneyDiff).toFixed(2);
+            let date = (this.formatDate(value.DOT)); 
+            this.newTransactions.push({DOT: date, credit : credit, debit : debit, balance: value.balance.toFixed(2)})
         })
         
-        //return this.formatTransactions()
-        // needs another forEach loop to iterate through the transactions and provide the array, DOT, to formatDate
-   
+        return this.formatTransactions()
     }
 
     private
 
     formatTransactions () {
-
+        let display = [];
+        this.newTransactions.forEach(value => {
+            display.push(`${value.DOT} || ${value.credit} || ${value.debit} || ${value.balance}`);
+        })
+        return `date || credit || debit || balance\n` + display.reverse().join('\n');
     }
 
     formatDate (DOT) { 
