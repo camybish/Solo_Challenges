@@ -78,3 +78,23 @@ In case you want to interact with the ATM directly here are the setup instructio
 - once jest is successfully set up, type in 'jest test/bank.test.js' or 'test/statement.test.js' into the terminal
 
 ## Screenshots
+
+```plain
+Here's a working example
+```
+![Tech Test Demo](./docs/working_example.png)
+
+```plain
+Working tests
+```
+![Jest Testing Coverage](./docs/passing_tests.png)
+
+```plain
+Drawing out the original solution to better understand how the class can be refactored into multiple classes
+```
+![Old Class Planning - post feedback](./docs/old_class.png)
+
+```plain
+A simple diagram of my solution
+```
+![New Classes Planning - post feedback](./docs/new_classes.png)
